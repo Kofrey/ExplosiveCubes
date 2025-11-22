@@ -6,13 +6,19 @@ using UnityEngine;
 public class CubeFactory : MonoBehaviour
 {
     [SerializeField] private UnityEngine.GameObject _cubePrefab;
-    [SerializeField] private Exploder _exploder;
+    //[SerializeField] private Exploder _exploder;
     [SerializeField] private float _startingCubeRespawnTime = 3.5f; 
     [SerializeField] private int _minAmountCubesOnExplosion = 2;
     [SerializeField] private int _maxAmountCubesOnExplosion = 6;
 
+    public event Action<Cube, List<Transform>> CubesSpawned;
+
     private int _respawnChanceFactor = 2;
     private float _childScale = 0.5f;
+    private int _spawnedChildInLine = 2;
+    private int _spawnedChildInPlane = 4;
+    private float _shiftHalf = 0.5f;
+    private float _shiftQuarter = 0.25f;
 
     private void Start()
     {
@@ -52,7 +58,7 @@ public class CubeFactory : MonoBehaviour
         }
 
         cube.Click -= OnCubeClicked;
-        _exploder.Explosion(cube, transforms); 
+        CubesSpawned?.Invoke(cube, transforms);
     }
 
     private List<Transform> CubesSpawnOnExplosion(Cube explodedCube)
@@ -64,7 +70,7 @@ public class CubeFactory : MonoBehaviour
 
         for(int i = 0; i < cubesCount; ++i)
         {
-            Vector3 spawnPosition = new Vector3(cubeTransform.position.x + (-0.25f + 0.5f * (i % 2)) * cubeTransform.localScale.x, cubeTransform.position.y + (0.5f - 0.5f * (i / 4)) * cubeTransform.localScale.y, cubeTransform.position.z + 0.5f * (i / 2) * cubeTransform.localScale.z);
+            Vector3 spawnPosition = new Vector3(cubeTransform.position.x + (-_shiftQuarter + _shiftHalf * (i % _spawnedChildInLine)) * cubeTransform.localScale.x, cubeTransform.position.y + (_shiftHalf - _shiftHalf * (i / _spawnedChildInPlane)) * cubeTransform.localScale.y, cubeTransform.position.z + _shiftHalf * (i / _spawnedChildInLine) * cubeTransform.localScale.z);
            
             GameObject newCube = Instantiate(explodedCube.gameObject, spawnPosition, cubeTransform.rotation);  
 
@@ -73,7 +79,6 @@ public class CubeFactory : MonoBehaviour
             Transform newCubeTransform = newCube.GetComponent<Transform>();
             transforms.Add(newCubeTransform);
             newCubeTransform.localScale *= _childScale;
-            //newCube.GetComponent<Rigidbody>().AddForce((newCubeTransform.position - cubeTransform.position) * _explosionPower);
         }
 
         return transforms;

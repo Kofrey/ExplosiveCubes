@@ -4,6 +4,7 @@ using System.Collections.Generic;
 public class Exploder : MonoBehaviour
 {
     [SerializeField] private int _explosionPower = 700;
+    [SerializeField] private CubeFactory _cubeFactory;
 
     public void Explosion (Cube cube, List<Transform> affectedTransforms)
     {
@@ -13,5 +14,15 @@ public class Exploder : MonoBehaviour
         }
 
         Destroy(cube.gameObject);
+    }
+
+    private void OnEnable()
+    {
+        _cubeFactory.CubesSpawned += Explosion;
+    }
+
+    private void OnDisable()
+    {
+        _cubeFactory.CubesSpawned -= Explosion;
     }
 }

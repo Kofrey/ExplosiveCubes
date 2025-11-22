@@ -129,8 +129,9 @@ GameObject:
   m_Component:
   - component: {fileID: 194695465}
   - component: {fileID: 194695466}
+  - component: {fileID: 194695467}
   m_Layer: 0
-  m_Name: CubeFabrick
+  m_Name: CubeFactory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -164,9 +165,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CubeFactory
   _cubePrefab: {fileID: 441689899131535882, guid: 92ef6b9f35007ce48ad8466e4b6650fb, type: 3}
+  _exploder: {fileID: 194695467}
   _startingCubeRespawnTime: 2.8
   _minAmountCubesOnExplosion: 2
   _maxAmountCubesOnExplosion: 6
+--- !u!114 &194695467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 194695463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 112b7ca77c48a944c8dee7701beef62b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Exploder
+  _explosionPower: 700
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -180,6 +195,7 @@ GameObject:
   - component: {fileID: 330585544}
   - component: {fileID: 330585547}
   - component: {fileID: 330585548}
+  - component: {fileID: 330585549}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -317,7 +333,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbfccc0b6a28ed544981faf5ae0689ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Raycaster
+  _inputHandler: {fileID: 330585549}
   _maxDistance: 100
+--- !u!114 &330585549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330585543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9da1ad5dfc3ac5b4d980987aa14921e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InputHandler
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0

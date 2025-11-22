@@ -2,20 +2,28 @@ using UnityEngine;
 
 public class Raycaster : MonoBehaviour
 {
+    [SerializeField] private InputHandler _inputHandler;
     [SerializeField] private float _maxDistance = 100.0f;
 
-    private void Update()
+    private void OnEnable()
     {
-        if (Input.GetMouseButtonDown(0))
+        _inputHandler.MouseClick += Cast;
+    }
+
+    private void OnDisable() 
+    {
+        _inputHandler.MouseClick -= Cast;
+    }
+
+    private void Cast()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, _maxDistance) && hit.collider.TryGetComponent(out Cube cube))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit, _maxDistance) && hit.collider.CompareTag("Interactable"))
-            {
-                hit.rigidbody.GetComponent<Cube>().OnClick();
-            }
+            cube.OnClick();
         }
     }
 }
