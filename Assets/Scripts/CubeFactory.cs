@@ -6,7 +6,6 @@ using UnityEngine;
 public class CubeFactory : MonoBehaviour
 {
     [SerializeField] private UnityEngine.GameObject _cubePrefab;
-    //[SerializeField] private Exploder _exploder;
     [SerializeField] private float _startingCubeRespawnTime = 3.5f; 
     [SerializeField] private int _minAmountCubesOnExplosion = 2;
     [SerializeField] private int _maxAmountCubesOnExplosion = 6;
