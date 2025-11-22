@@ -73,7 +73,6 @@ public class CubeFactory : MonoBehaviour
             Transform newCubeTransform = newCube.GetComponent<Transform>();
             transforms.Add(newCubeTransform);
             newCubeTransform.localScale *= _childScale;
-            //newCube.GetComponent<Rigidbody>().AddForce((newCubeTransform.position - cubeTransform.position) * _explosionPower);
         }
 
         return transforms;
