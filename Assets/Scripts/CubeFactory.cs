@@ -5,14 +5,11 @@ using UnityEngine;
 
 public class CubeFactory : MonoBehaviour
 {
-    [SerializeField] private UnityEngine.GameObject _cubePrefab;
+    [SerializeField] private Cube _cubePrefab;
     [SerializeField] private float _startingCubeRespawnTime = 3.5f; 
     [SerializeField] private int _minAmountCubesOnExplosion = 2;
     [SerializeField] private int _maxAmountCubesOnExplosion = 6;
 
-    public event Action<Cube, List<Transform>> CubesSpawned;
-
-    private int _respawnChanceFactor = 2;
     private float _childScale = 0.5f;
     private int _spawnedChildInLine = 2;
     private int _spawnedChildInPlane = 4;
@@ -36,8 +33,7 @@ public class CubeFactory : MonoBehaviour
             }
             else
             {
-                UnityEngine.GameObject cubeObject = Instantiate(_cubePrefab);
-                cubeObject.GetComponent<Cube>().Click += OnCubeClicked;
+                Cube cubeObject = Instantiate(_cubePrefab.gameObject).GetComponent<Cube>();
                 elapsedTime += Time.deltaTime - respawnTime;
             }
 
@@ -45,22 +41,7 @@ public class CubeFactory : MonoBehaviour
         }    
     }
 
-    private void OnCubeClicked(Cube cube)
-    { 
-        List<Transform> transforms = new List<Transform>();
-
-        if(UserUtils.GenerateRandomNumber(1, 100) <= cube.RespawnChance)
-        {
-            cube.SetRespawnChance(cube.RespawnChance / _respawnChanceFactor);
-            
-            transforms = CubesSpawnOnExplosion(cube);    
-        }
-
-        cube.Click -= OnCubeClicked;
-        CubesSpawned?.Invoke(cube, transforms);
-    }
-
-    private List<Transform> CubesSpawnOnExplosion(Cube explodedCube)
+    public List<Transform> CubesSpawnOnExplosion(Cube explodedCube)
     {
         int cubesCount = UserUtils.GenerateRandomNumber(_minAmountCubesOnExplosion, _maxAmountCubesOnExplosion);
         Transform cubeTransform = explodedCube.transform;
@@ -71,9 +52,7 @@ public class CubeFactory : MonoBehaviour
         {
             Vector3 spawnPosition = new Vector3(cubeTransform.position.x + (-_shiftQuarter + _shiftHalf * (i % _spawnedChildInLine)) * cubeTransform.localScale.x, cubeTransform.position.y + (_shiftHalf - _shiftHalf * (i / _spawnedChildInPlane)) * cubeTransform.localScale.y, cubeTransform.position.z + _shiftHalf * (i / _spawnedChildInLine) * cubeTransform.localScale.z);
            
-            GameObject newCube = Instantiate(explodedCube.gameObject, spawnPosition, cubeTransform.rotation);  
-
-            newCube.GetComponent<Cube>().Click += OnCubeClicked;
+            Cube newCube = Instantiate(explodedCube, spawnPosition, cubeTransform.rotation);  
 
             Transform newCubeTransform = newCube.GetComponent<Transform>();
             transforms.Add(newCubeTransform);

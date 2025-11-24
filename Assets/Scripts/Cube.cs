@@ -6,14 +6,8 @@ public class Cube : MonoBehaviour
     [SerializeField] private Renderer _renderer;
     [SerializeField] private int _respawnChance = 100;
 
-    public event Action<Cube> Click;
-
     public int RespawnChance => _respawnChance;
-
-    public void OnClick() 
-    {
-        Click?.Invoke(this);
-    }
+    public Rigidbody Rigidbody => this.GetComponent<Rigidbody>();
 
     public void SetRespawnChance(int value)
     {

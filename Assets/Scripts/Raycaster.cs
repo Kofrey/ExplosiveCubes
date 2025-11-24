@@ -1,9 +1,12 @@
+using System;
 using UnityEngine;
 
 public class Raycaster : MonoBehaviour
 {
     [SerializeField] private InputHandler _inputHandler;
     [SerializeField] private float _maxDistance = 100.0f;
+
+    public event Action<RaycastHit> ObjectClicked;
 
     private void OnEnable()
     {
@@ -21,9 +24,9 @@ public class Raycaster : MonoBehaviour
 
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, _maxDistance) && hit.collider.TryGetComponent(out Cube cube))
+        if (Physics.Raycast(ray, out hit, _maxDistance))
         {
-            cube.OnClick();
+            ObjectClicked?.Invoke(hit);
         }
     }
 }
