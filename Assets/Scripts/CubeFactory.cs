@@ -48,7 +48,7 @@ public class CubeFactory : MonoBehaviour
     {
         float elapsedTime = 0f;
         
-        while(true)
+        while(enabled)
         {
             if (elapsedTime < respawnTime)
             {

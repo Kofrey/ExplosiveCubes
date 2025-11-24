@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3289321914414582468}
   - component: {fileID: 7472089531084887787}
   - component: {fileID: 7721311757500005224}
+  - component: {fileID: 2181173327222018058}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Interactable
@@ -152,5 +153,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27f8685ea7091e4eb9bef938ad0ea8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Cube
-  _renderer: {fileID: 8188191377633851961}
   _respawnChance: 100
+  Rigidbody: {fileID: 7472089531084887787}
+--- !u!114 &2181173327222018058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 441689899131535882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44a6a81db855d914b8c3528f540d3c13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ColorChanger
+  _renderer: {fileID: 8188191377633851961}
+  _hueMin: 0
+  _hueMax: 1
+  _saturationMin: 1
+  _saturationMax: 1
+  _valueMin: 0.5
+  _valueMax: 1
