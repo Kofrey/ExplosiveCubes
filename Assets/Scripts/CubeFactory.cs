@@ -10,6 +10,7 @@ public class CubeFactory : MonoBehaviour
     [SerializeField] private int _minAmountCubesOnExplosion = 2;
     [SerializeField] private int _maxAmountCubesOnExplosion = 6;
 
+    private int _respawnChanceFactor = 2;
     private float _childScale = 0.5f;
     private int _spawnedChildInLine = 2;
     private int _spawnedChildInPlane = 4;
@@ -18,10 +19,32 @@ public class CubeFactory : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(CubeGeneration(_startingCubeRespawnTime));
+        StartCoroutine(GenerateCubes(_startingCubeRespawnTime));
+    }
+    
+    public List<Cube> CubesSpawnOnExplosion(Cube explodedCube)
+    {
+        int cubesCount = UserUtils.GenerateRandomNumber(_minAmountCubesOnExplosion, _maxAmountCubesOnExplosion);
+        Transform cubeTransform = explodedCube.transform;
+
+        List<Cube> spawnedCubes = new List<Cube>();
+
+        for(int i = 0; i < cubesCount; ++i)
+        {
+            Vector3 spawnPosition = new Vector3(cubeTransform.position.x + (-_shiftQuarter + _shiftHalf * (i % _spawnedChildInLine)) * cubeTransform.localScale.x, cubeTransform.position.y + (_shiftHalf - _shiftHalf * (i / _spawnedChildInPlane)) * cubeTransform.localScale.y, cubeTransform.position.z + _shiftHalf * (i / _spawnedChildInLine) * cubeTransform.localScale.z);
+           
+            Cube newCube = Instantiate(explodedCube, spawnPosition, cubeTransform.rotation);  
+
+            newCube.SetRespawnChance(explodedCube.RespawnChance / _respawnChanceFactor);
+            newCube.transform.localScale *= _childScale;
+
+            spawnedCubes.Add(newCube);         
+        }
+
+        return spawnedCubes;
     }
 
-    private IEnumerator CubeGeneration(float respawnTime)
+    private IEnumerator GenerateCubes(float respawnTime)
     {
         float elapsedTime = 0f;
         
@@ -39,26 +62,5 @@ public class CubeFactory : MonoBehaviour
 
             yield return null;
         }    
-    }
-
-    public List<Transform> CubesSpawnOnExplosion(Cube explodedCube)
-    {
-        int cubesCount = UserUtils.GenerateRandomNumber(_minAmountCubesOnExplosion, _maxAmountCubesOnExplosion);
-        Transform cubeTransform = explodedCube.transform;
-
-        List<Transform> transforms = new List<Transform>();
-
-        for(int i = 0; i < cubesCount; ++i)
-        {
-            Vector3 spawnPosition = new Vector3(cubeTransform.position.x + (-_shiftQuarter + _shiftHalf * (i % _spawnedChildInLine)) * cubeTransform.localScale.x, cubeTransform.position.y + (_shiftHalf - _shiftHalf * (i / _spawnedChildInPlane)) * cubeTransform.localScale.y, cubeTransform.position.z + _shiftHalf * (i / _spawnedChildInLine) * cubeTransform.localScale.z);
-           
-            Cube newCube = Instantiate(explodedCube, spawnPosition, cubeTransform.rotation);  
-
-            Transform newCubeTransform = newCube.GetComponent<Transform>();
-            transforms.Add(newCubeTransform);
-            newCubeTransform.localScale *= _childScale;
-        }
-
-        return transforms;
     }
 }

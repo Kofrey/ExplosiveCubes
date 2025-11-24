@@ -10,13 +10,13 @@ public class Cube : MonoBehaviour
     public Rigidbody Rigidbody => this.GetComponent<Rigidbody>();
     public float Scale => transform.localScale.x;
 
-    public void SetRespawnChance(int value)
-    {
-        _respawnChance = value;
-    }
-    
     private void OnEnable() 
     {
         _renderer.material.color = UnityEngine.Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
+    }
+
+    public void SetRespawnChance(int value)
+    {
+        _respawnChance = value;
     }
 }

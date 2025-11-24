@@ -181,7 +181,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Exploder
   _explosionPower: 700
-  _explosionRadius: 5
+  _explosionRadius: 3
   _effect: {fileID: 65809061209982647, guid: 8db8ed2d6e2b4a64db41b3d3561633bf, type: 3}
 --- !u!1 &330585543
 GameObject:

@@ -7,14 +7,14 @@ public class Exploder : MonoBehaviour
     [SerializeField] private float _explosionRadius = 3;
     [SerializeField] private ParticleSystem _effect;
 
-    public void Explosion (Cube cube, List<Transform> affectedTransforms)
+    public void Explosion (Cube cube, List<Cube> spawnedCubes)
     {
         Vector3 explodePosition = cube.transform.position;
         float explodeScale = cube.Scale;        
 
         Destroy(cube.gameObject);
 
-        if(affectedTransforms.Count == 0)
+        if(spawnedCubes.Count == 0)
         {
             Collider[] hits = Physics.OverlapSphere(explodePosition, (_explosionRadius / explodeScale));
 
@@ -35,9 +35,9 @@ public class Exploder : MonoBehaviour
         }
         else
         {
-            foreach(Transform transform in affectedTransforms)
+            foreach(Cube spawnedCube in spawnedCubes)
             {
-                transform.GetComponent<Rigidbody>().AddForce((transform.position - cube.transform.position) * _explosionPower);
+                spawnedCube.Rigidbody.AddForce((spawnedCube.transform.position - explodePosition) * _explosionPower);
             }
         }
     }

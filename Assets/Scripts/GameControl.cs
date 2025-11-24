@@ -8,7 +8,8 @@ public class GameControl : MonoBehaviour
     [SerializeField] private CubeFactory _cubeFactory;
     [SerializeField] private Exploder _exploder;
 
-    private int _respawnChanceFactor = 2;
+    private int _maxRespawnChance = 100;
+    private int _minRespawnChance = 1;
 
     private void OnEnable() {
         _raycaster.ObjectClicked += OnObjectClicked;
@@ -26,15 +27,11 @@ public class GameControl : MonoBehaviour
 
     private void OnCubeClicked(Cube cube)
     { 
-        List<Transform> transforms = new List<Transform>();
+        List<Cube> spawnedCubes = new List<Cube>();
 
-        if(UserUtils.GenerateRandomNumber(1, 100) <= cube.RespawnChance)
-        {
-            cube.SetRespawnChance(cube.RespawnChance / _respawnChanceFactor);
-            
-            transforms = _cubeFactory.CubesSpawnOnExplosion(cube);    
-        }
+        if(UserUtils.GenerateRandomNumber(_minRespawnChance, _maxRespawnChance) <= cube.RespawnChance)  
+            spawnedCubes = _cubeFactory.CubesSpawnOnExplosion(cube);    
 
-        _exploder.Explosion(cube, transforms);
+        _exploder.Explosion(cube, spawnedCubes);
     }
 }
