@@ -154,7 +154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Cube
   _respawnChance: 100
-  Rigidbody: {fileID: 7472089531084887787}
+  _rigidbody: {fileID: 7472089531084887787}
 --- !u!114 &2181173327222018058
 MonoBehaviour:
   m_ObjectHideFlags: 0
