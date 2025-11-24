@@ -8,6 +8,7 @@ public class Cube : MonoBehaviour
 
     public int RespawnChance => _respawnChance;
     public Rigidbody Rigidbody => this.GetComponent<Rigidbody>();
+    public float Scale => transform.localScale.x;
 
     public void SetRespawnChance(int value)
     {

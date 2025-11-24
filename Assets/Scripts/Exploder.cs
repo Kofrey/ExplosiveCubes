@@ -4,19 +4,19 @@ using System.Collections.Generic;
 public class Exploder : MonoBehaviour
 {
     [SerializeField] private int _explosionPower = 700;
-    [SerializeField] private float _explosionRadius = 5;
+    [SerializeField] private float _explosionRadius = 3;
     [SerializeField] private ParticleSystem _effect;
 
     public void Explosion (Cube cube, List<Transform> affectedTransforms)
     {
         Vector3 explodePosition = cube.transform.position;
-        float explodeScale = cube.transform.localScale.x;        
+        float explodeScale = cube.Scale;        
 
         Destroy(cube.gameObject);
 
         if(affectedTransforms.Count == 0)
         {
-            Collider[] hits = Physics.OverlapSphere(explodePosition, _explosionRadius);
+            Collider[] hits = Physics.OverlapSphere(explodePosition, (_explosionRadius / explodeScale));
 
             foreach(Collider hit in hits)
             {
