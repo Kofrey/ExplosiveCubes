@@ -11,11 +11,13 @@ public class GameControl : MonoBehaviour
     private int _maxRespawnChance = 100;
     private int _minRespawnChance = 1;
 
-    private void OnEnable() {
+    private void OnEnable()
+    {
         _raycaster.ObjectClicked += OnObjectClicked;
     }
 
-    private void OnDisable() {
+    private void OnDisable() 
+    {
         _raycaster.ObjectClicked -= OnObjectClicked;
     }
 
