@@ -23,11 +23,11 @@ public class Exploder : MonoBehaviour
                 if(hit.transform.TryGetComponent(out Cube overlappedCube))
                 {
                     Vector3 direction = hit.transform.position - explodePosition;
-                    float magn = direction.magnitude;
-                    float impactPower = _explosionPower / magn / explodeScale;
+                    float distance = direction.magnitude;
+                    float impactPower = _explosionPower / distance / explodeScale;
 
                     if (impactPower > 0)
-                        overlappedCube.Rigidbody.AddForce(direction * impactPower);//(Vector3.Distance(hit.transform.position, cube.transform.position) * cube.transform.localScale.x));
+                        overlappedCube.Rigidbody.AddForce(direction * impactPower);
                 }
             }
 
